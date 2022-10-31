@@ -156,13 +156,17 @@ public class FrmEmpleado extends javax.swing.JFrame {
                         Empleado empleado = new Empleado(txtCodigo.getText().toUpperCase(),
                                 txtNombre.getText().toUpperCase(), txtApellido.getText().toUpperCase(),
                                 Integer.parseInt(txtSueldo.getText()));
-                        if (existeEmpleado(empleado)) {
-                                JOptionPane.showMessageDialog(null, "Empleado ya existe en el archivo");
+                        if (empleado.getCodigo().startsWith("AT")) {
+                                if (!existeEmpleado(empleado)) {
+                                        archivo.guardar(empleado);
+                                        empleados = archivo.listar();
+                                        limpiarCampos();
+                                        JOptionPane.showMessageDialog(null, "Empleado fue registrado con exito");
+                                } else {
+                                        JOptionPane.showMessageDialog(null, "Empleado ya existe en el archivo");
+                                }
                         } else {
-                                archivo.guardar(empleado);
-                                empleados = archivo.listar();
-                                limpiarCampos();
-                                JOptionPane.showMessageDialog(null, "Empleado fue registrado con exito");
+                                JOptionPane.showMessageDialog(null, "El codigo debe empezar con AT");
                         }
                 }
         }//GEN-LAST:event_btnRegistrarActionPerformed
@@ -170,7 +174,7 @@ public class FrmEmpleado extends javax.swing.JFrame {
         private Boolean existeEmpleado(Empleado empleado) {
                 Empleado existe = empleados.stream()
                         .filter(f -> f.getNombre().equalsIgnoreCase(empleado.getNombre())
-                                                && f.getApellido().equalsIgnoreCase(empleado.getApellido()))
+                        && f.getApellido().equalsIgnoreCase(empleado.getApellido()))
                         .findFirst() //si se contro un elemento identico a los 3 casos retornara el primer objeto identico
                         .orElse(null); //si no hubo ninguno, retornara null
                 if (existe == null) { //retorna false porque en el archivo no existe
