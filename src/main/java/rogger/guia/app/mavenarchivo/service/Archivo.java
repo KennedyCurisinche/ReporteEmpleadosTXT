@@ -17,7 +17,7 @@ import rogger.guia.app.mavenarchivo.entity.Empleado;
  */
 public class Archivo {
 
-        private final String URL = "D:\\";
+        private final String URL = "/home/rogger/Descargas/";
         private final String ARCHIVO = URL + "empleado.txt";
 
         public List<Empleado> listar() {
